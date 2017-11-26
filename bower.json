@@ -1,0 +1,20 @@
+{
+  "name": "markdowneditor",
+  "description": "A Vue.js project",
+  "main": "",
+  "authors": [
+    "kkawazoe <feike1@live.jp>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "syncscroll": "^0.0.3"
+  }
+}
