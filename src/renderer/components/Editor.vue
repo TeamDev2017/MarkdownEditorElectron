@@ -14,7 +14,7 @@
       <textarea v-model="source" class="source full-height syncscroll" name="scroll-area">
       </textarea>
     </div>
-    <section class="result-area col-xs-6 full-height">
+    <section class="result-area col-xs-6 full-height" id="print-area">
       <vue-markdown
         class="markdown-preview result-html full-height syncscroll"
         name="scroll-area"
@@ -70,11 +70,7 @@
 <script>
 import VueMarkdown from 'vue-markdown'
 import Prism from 'prismjs'
-import path from 'path'
-import fs from 'fs'
-// import markdownpdf from 'markdown-pdf'
-import { remote } from 'electron'
-import moment from 'moment'
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'editor',
@@ -98,38 +94,8 @@ export default {
       Prism.highlightAll()
     },
     exportPdf () {
-      const contents = remote.webContents.getFocusedWebContents()
-      const options = {
-        marginsType: 0,
-        printBackground: false,
-        printSelectionOnly: false,
-        landscape: false
-      }
-      const currentDate = moment().format('YYYYMMDDHHmmss')
-      contents.printToPDF(options, (error, data) => {
-        if (error) throw error
-        fs.writeFile(
-          path.join(remote.app.getPath('home'), `/desktop/output_${currentDate}.pdf`), data, (error) => {
-            if (error) throw error
-            console.log('Write PDF successfully.')
-          }
-        )
-      })
-      // const currentDate = moment().format('YYYYMMDDHHmmss')
-      // fs.writeFileSync('tmp/output.md', this.source)
-      // markdownpdf()
-      //   .from('tmp/output.md')
-      //   .to(path.join(remote.app.getPath('home'), `/desktop/output_${currentDate}.pdf`), () => {
-      //     const win = remote.getCurrentWindow()
-      //     const options = {
-      //       type: 'info',
-      //       buttons: ['OK'],
-      //       title: '完了',
-      //       message: 'PDFの出力が完了しました。',
-      //       detail: ''
-      //     }
-      //     remote.dialog.showMessageBox(win, options)
-      //   })
+      const context = this.$twemoji.parse(document.getElementById('print-area').innerHTML)
+      ipcRenderer.send('print-to-pdf', context)
     }
   }
 }

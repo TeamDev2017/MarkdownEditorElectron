@@ -59,7 +59,6 @@
     "axios": "^0.16.1",
     "bootstrap": "^3.3.7",
     "bootstrap-vue": "^1.2.0",
-    "markdown-pdf": "^8.0.0",
     "moment": "^2.19.2",
     "normalize.css": "^7.0.0",
     "prismjs": "^1.8.4",
@@ -67,6 +66,7 @@
     "vue-electron": "^1.0.6",
     "vue-markdown": "^2.2.4",
     "vue-router": "^2.5.3",
+    "vue-twemoji": "^1.0.1",
     "vuex": "^2.3.1"
   },
   "devDependencies": {
