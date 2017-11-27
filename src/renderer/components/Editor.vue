@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<style src="../assets/css/prism.min.css"></style>
+<style src="../../../static/vendor/css/prism.min.css"></style>
 
 <style lang="scss" scoped>
 
@@ -69,8 +69,12 @@
 
 <script>
 import VueMarkdown from 'vue-markdown'
-import { Prism } from '../assets/js/prism.min.js'
+import Prism from 'prismjs'
+import path from 'path'
 import fs from 'fs'
+// import markdownpdf from 'markdown-pdf'
+import { remote } from 'electron'
+import moment from 'moment'
 
 export default {
   name: 'editor',
@@ -94,7 +98,38 @@ export default {
       Prism.highlightAll()
     },
     exportPdf () {
-      fs.writeFileSync('output.txt', 'テキストファイルの中身')
+      const contents = remote.webContents.getFocusedWebContents()
+      const options = {
+        marginsType: 0,
+        printBackground: false,
+        printSelectionOnly: false,
+        landscape: false
+      }
+      const currentDate = moment().format('YYYYMMDDHHmmss')
+      contents.printToPDF(options, (error, data) => {
+        if (error) throw error
+        fs.writeFile(
+          path.join(remote.app.getPath('home'), `/desktop/output_${currentDate}.pdf`), data, (error) => {
+            if (error) throw error
+            console.log('Write PDF successfully.')
+          }
+        )
+      })
+      // const currentDate = moment().format('YYYYMMDDHHmmss')
+      // fs.writeFileSync('tmp/output.md', this.source)
+      // markdownpdf()
+      //   .from('tmp/output.md')
+      //   .to(path.join(remote.app.getPath('home'), `/desktop/output_${currentDate}.pdf`), () => {
+      //     const win = remote.getCurrentWindow()
+      //     const options = {
+      //       type: 'info',
+      //       buttons: ['OK'],
+      //       title: '完了',
+      //       message: 'PDFの出力が完了しました。',
+      //       detail: ''
+      //     }
+      //     remote.dialog.showMessageBox(win, options)
+      //   })
     }
   }
 }

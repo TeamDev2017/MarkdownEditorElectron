@@ -10,6 +10,10 @@
   }
 </script>
 
+<style>
+  @import "~normalize.css/normalize.css";
+</style>
+
 <style lang="scss">
 $common_text_color: rgb(171, 178, 186);
 $common_button_text_color: rgb(48, 166, 74);
