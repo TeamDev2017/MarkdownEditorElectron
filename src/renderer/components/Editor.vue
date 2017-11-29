@@ -21,6 +21,7 @@
         :source="source"
         :watches="['source']"
         :show="show"
+        :toc="false"
         @rendered="highlight()">
       </vue-markdown>
     </section>
@@ -70,7 +71,13 @@
 <script>
 import VueMarkdown from 'vue-markdown'
 import Prism from 'prismjs'
+import PrismLoader from 'prismjs-components-loader'
+import componentIndex from 'prismjs-components-loader/lib/all-components'
 import { ipcRenderer } from 'electron'
+
+const prismLoader = new PrismLoader(componentIndex)
+prismLoader.load(Prism, 'go')
+prismLoader.load(Prism, 'ruby')
 
 export default {
   name: 'editor',
