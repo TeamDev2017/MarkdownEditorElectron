@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, shell, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain, shell, Menu, dialog } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import moment from 'moment'
@@ -51,10 +51,18 @@ ipcMain.on('ready-print-to-pdf', (event) => {
       if (error) {
         throw error
       }
-      // プレビュー表示
-      shell.openItem(pdfPath)
       // PDFファイルは書き込み済みなのでworkerページは閉じても大丈夫
       workerWindow.close()
+
+      // ダイアログ表示
+      const options = {
+        type: 'info',
+        buttons: ['OK'],
+        title: 'PDF出力完了',
+        message: 'PDF出力完了が完了しました。',
+        detail: `${pdfPath}が出力されています。`
+      }
+      dialog.showMessageBox(mainWindow, options)
     })
   })
 })
@@ -181,7 +189,7 @@ function createWindow () {
         {
           label: 'Learn More',
           click: () => {
-            require('electron').shell.openExternal('http://electron.atom.io')
+            shell.openExternal('http://electron.atom.io')
           }
         }
       ]
