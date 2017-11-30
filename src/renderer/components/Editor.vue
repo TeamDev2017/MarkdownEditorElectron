@@ -5,7 +5,7 @@
         <p>Markdown Editor</p>
       </div>
       <div class="button-area">
-        <b-button variant="outline-success" @click="exportPdf()">
+        <b-button variant="outline-success" @click="exportPdf()" :disabled="isDisabledExportPdfButton">
           Export PDF
         </b-button>
       </div>
@@ -74,6 +74,7 @@ import Prism from 'prismjs'
 import PrismLoader from 'prismjs-components-loader'
 import componentIndex from 'prismjs-components-loader/lib/all-components'
 import { ipcRenderer } from 'electron'
+import { isEmpty } from 'lodash'
 
 const prismLoader = new PrismLoader(componentIndex)
 prismLoader.load(Prism, 'go')
@@ -91,6 +92,11 @@ export default {
       emoji: true,
       typographer: true,
       toc: false
+    }
+  },
+  computed: {
+    isDisabledExportPdfButton () {
+      return isEmpty(this.source)
     }
   },
   components: {

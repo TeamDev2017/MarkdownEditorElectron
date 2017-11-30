@@ -59,7 +59,7 @@ ipcMain.on('ready-print-to-pdf', (event) => {
         type: 'info',
         buttons: ['OK'],
         title: 'PDF出力完了',
-        message: 'PDF出力完了が完了しました。',
+        message: 'PDF出力が完了しました。',
         detail: `${pdfPath}が出力されています。`
       }
       dialog.showMessageBox(mainWindow, options)
