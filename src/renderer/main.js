@@ -11,7 +11,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import vuetwemoji from 'vue-twemoji'
 
 Vue.use(vuetwemoji, {})
-
 Vue.use(BootstrapVue)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
